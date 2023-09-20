@@ -1,23 +1,27 @@
 package com.gabriel.testesUnitarios.Services;
 
 import com.gabriel.testesUnitarios.entities.Movie;
+import com.gabriel.testesUnitarios.repository.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
 public class MovieService {
 
-    public Movie findMovie(Long codec) {
-        if (codec > 100) {
-            return null;
-        }
+    @Autowired
+    private MovieRepository movieRepository;
 
+    public List<Movie> findAllMovies() {
+        return movieRepository.findAll();
+    }
 
-        return new Movie(
-                codec,
-                "O poderoso Chefão",
-                "Filme norme americano de 1972, dirigido por frances ford coppola"
-        );
+    public List<Movie> findMovieByCodec(String codec) {
+        System.out.println(codec);
+        return movieRepository.findByCodec(codec);
     }
 }

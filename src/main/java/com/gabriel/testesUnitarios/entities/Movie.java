@@ -7,7 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class Movie {
 
-    private Long codec;
+    private Long id;
+    private String codec;
     private String title;
     private String description;
 

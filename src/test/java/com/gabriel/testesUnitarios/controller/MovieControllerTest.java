@@ -32,8 +32,8 @@ public class MovieControllerTest {
     @Test
     public void shouldReturnSuccess_whenToLookForFilm() {
 
-        when(this.movieService.findMovie(1L))
-                .thenReturn(new Movie(1L, "O poderoso chefão", "Sem descrição"));
+        when(this.movieService.findMovieByCodec("123"))
+                .thenReturn(new Movie(1L, "123", "O poderoso chefão", "Sem descrição"));
 
         given()
                 .accept(ContentType.JSON)
