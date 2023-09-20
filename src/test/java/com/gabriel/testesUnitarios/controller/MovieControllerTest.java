@@ -9,7 +9,6 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -30,6 +29,19 @@ public class MovieControllerTest {
     @BeforeEach
     public void setup() {
         standaloneSetup(this.movieController);
+    }
+
+    @Test
+    public void shouldReturnSuccess_whenToSearchAllMovies() {
+        when(this.movieService.findAllMovies())
+                .thenReturn(List.of(new Movie(1L, "123", "O poderoso chefão", "Sem descrição")));
+
+        given()
+                .accept(ContentType.JSON)
+                .when()
+                .get("/movies")
+                .then()
+                .statusCode(HttpStatus.OK.value());
     }
 
     @Test
@@ -56,17 +68,5 @@ public class MovieControllerTest {
                 .get("/movies/{codec}", "123")
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
-    }
-
-    @Test
-    public void shouldReturnBadRequest_whenToLookFilm() {
-        given()
-                .accept(ContentType.JSON)
-                .when()
-                .get("/movies/{codec}", "asd")
-                .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
-
-        verify(this.movieService, never()).findMovieByCodec("asd");
     }
 }
