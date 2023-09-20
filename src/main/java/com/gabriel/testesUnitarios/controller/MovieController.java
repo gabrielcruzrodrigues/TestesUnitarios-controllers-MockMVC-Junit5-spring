@@ -31,6 +31,9 @@ public class MovieController {
     @GetMapping("/{codec}")
     public ResponseEntity<List<Movie>> findMovie(@PathVariable String codec) {
         List<Movie> movie = this.movieService.findMovieByCodec(codec);
+        if (movie.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(movie);
     }
 }
